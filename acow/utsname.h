@@ -73,7 +73,7 @@ struct utsname
 //----------------------------------------------------------------------------//
 // Functions                                                                  //
 //----------------------------------------------------------------------------//
-int uname(struct utsname *name);
+int uname(struct utsname *name) noexcept;
 
 #else // #if (ACOW_OS_IS_WINDOWS)
 
