@@ -21,9 +21,7 @@
 // Header
 #include "../../utsname.h"
 
-#if (!ACOW_OS_IS_WINDOWS)
-    #error "Not on Windows environment";
-#endif
+#if (ACOW_OS_IS_WINDOWS)
 
 // std
 #include <string.h>
@@ -223,3 +221,6 @@ int uname(struct utsname *pName) noexcept
 
     return 0;
 }
+
+
+#endif // #if (ACOW_OS_IS_WINDOWS)
