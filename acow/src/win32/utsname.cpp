@@ -27,6 +27,8 @@
 #include <string.h>
 // Windows
 #include <WinSock2.h> // This must come before Windows.h
+#define WINDOWS_LEAN_AND_MEAN   
+#define _WINSOCKAPI_
 #include <Windows.h>
 // Amazing Cow Libs
 #include "CoreAssert/CoreAssert.h"
