@@ -19,7 +19,7 @@
 //---------------------------------------------------------------------------~//
 
 // Header
-#include "../../utsname.h"
+#include "acow/posix/cross/utsname.h"
 
 #if (ACOW_OS_IS_WINDOWS)
 
@@ -31,7 +31,7 @@
 #define _WINSOCKAPI_
 #include <Windows.h>
 // Amazing Cow Libs
-#include "CoreAssert/CoreAssert.h"
+#include "acow/cpp_goodies.h"
 
 //------------------------------------------------------------------------------
 // Auto "link" the WinSock2 lib.
@@ -43,7 +43,8 @@
 //----------------------------------------------------------------------------//
 // COWNOTE(n2omatt): Copied from codeproject without any shame :D
 //   https://www.codeproject.com/Messages/5080848/A-much-easier-and-shorter-code.aspx
-RTL_OSVERSIONINFOEXW* GetOsVersion() noexcept
+acow_internal_function RTL_OSVERSIONINFOEXW*
+GetOsVersion() noexcept
 {
     static bool                 s_init = false;
     static RTL_OSVERSIONINFOEXW s_info = {0};
@@ -73,7 +74,8 @@ RTL_OSVERSIONINFOEXW* GetOsVersion() noexcept
 //----------------------------------------------------------------------------//
 // Helper Functions                                                           //
 //----------------------------------------------------------------------------//
-std::string get_processor_arch(WORD processorType) noexcept
+acow_internal_function std::string
+get_processor_arch(WORD processorType) noexcept
 {
     switch(processorType)
     {
@@ -97,7 +99,8 @@ std::string get_processor_arch(WORD processorType) noexcept
     }
 }
 
-std::string get_processor_type(DWORD processorType) noexcept
+acow_internal_function std::string
+get_processor_type(DWORD processorType) noexcept
 {
     switch(processorType)
     {
@@ -133,13 +136,15 @@ std::string get_processor_type(DWORD processorType) noexcept
 //----------------------------------------------------------------------------//
 // Setter Functions                                                           //
 //----------------------------------------------------------------------------//
-int set_sysname(utsname *pName) noexcept
+acow_internal_function int 
+set_sysname(utsname *pName) noexcept
 {
     strcpy(pName->sysname, "Windows");
     return 0;
 }
 
-int set_nodename(utsname *pName) noexcept
+acow_internal_function int 
+set_nodename(utsname *pName) noexcept
 {
     if(gethostname(pName->nodename, _UTSNAME_NODENAME_LENGTH) != 0)
     {
@@ -160,7 +165,8 @@ int set_nodename(utsname *pName) noexcept
     return 0;
 }
 
-int set_release(utsname *pName) noexcept
+acow_internal_function int 
+set_release(utsname *pName) noexcept
 {
     auto p_info = GetOsVersion();
     sprintf(
@@ -174,7 +180,8 @@ int set_release(utsname *pName) noexcept
     return 0;
 }
 
-int set_version(utsname *pName) noexcept
+acow_internal_function int 
+set_version(utsname *pName) noexcept
 {
     auto p_info = GetOsVersion();
     sprintf(
@@ -190,7 +197,8 @@ int set_version(utsname *pName) noexcept
     return 0;
 }
 
-int set_machine(utsname *pName) noexcept
+acow_internal_function int 
+set_machine(utsname *pName) noexcept
 {
     SYSTEM_INFO system_info = {};
     GetSystemInfo(&system_info);
@@ -211,9 +219,10 @@ int set_machine(utsname *pName) noexcept
 //----------------------------------------------------------------------------//
 #define RETURN_IF_FAIL(_value_) do { if(_value_) return _value_; } while(0)
 
-int uname(struct utsname *pName) noexcept
+int
+uname(struct utsname *pName) noexcept
 {
-    COREASSERT_ASSERT(pName, "pName can't be null");
+    ACOW_ASSERT_NOT_NULL(pName);
 
     RETURN_IF_FAIL(set_sysname (pName));
     RETURN_IF_FAIL(set_nodename(pName));
@@ -223,6 +232,5 @@ int uname(struct utsname *pName) noexcept
 
     return 0;
 }
-
 
 #endif // #if (ACOW_OS_IS_WINDOWS)
