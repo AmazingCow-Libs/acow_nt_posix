@@ -21,34 +21,34 @@
 cmake_minimum_required(VERSION 3.5)
 
 ##----------------------------------------------------------------------------##
-## Project Settings.                                                          ##
+## Project                                                                    ##
 ##----------------------------------------------------------------------------##
-set(PROJECT_NAME acow_posix_goodies)
-project(${PROJECT_NAME})
+set(PROJECT acow_posix_cross)
+project(${PROJECT})
 
 
 ##----------------------------------------------------------------------------##
 ## Sources                                                                    ##
 ##----------------------------------------------------------------------------##
+##------------------------------------------------------------------------------
+## Sources
 set(SOURCES
-    acow/src/win32/utsname.cpp
+    acow/posix/cross/src/win32/utsname.cpp
 )
 
 
 ##----------------------------------------------------------------------------##
-## Executable / Libary                                                        ##
+## Library                                                                    ##
 ##----------------------------------------------------------------------------##
-add_library(${PROJECT_NAME} ${SOURCES})
+##------------------------------------------------------------------------------
+## Lib.
+add_library(${PROJECT} ${SOURCES})
 
+##-----------------------------------------------------------------------------
+## Include directories.
+target_include_directories(${PROJECT} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-##----------------------------------------------------------------------------##
-## Include directories                                                        ##
-##----------------------------------------------------------------------------##
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-
-##----------------------------------------------------------------------------##
-## Dependencies                                                               ##
-##----------------------------------------------------------------------------##
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC acow_c_goodies  )
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC acow_cpp_goodies)
+##------------------------------------------------------------------------------
+## Dependencies.
+target_link_libraries(${PROJECT} LINK_PUBLIC acow_c_goodies  )
+target_link_libraries(${PROJECT} LINK_PUBLIC acow_cpp_goodies)

@@ -22,16 +22,20 @@
 #include "acow/cpp_goodies.h"
 
 
-#if (ACOW_OS_IS_WINDOWS)
+// OS isn't Windows - Assuming that it'll work on other unices.
+#if (!ACOW_OS_IS_WINDOWS)
+    //--------------------------------------------------------------------------
+    // Just include the default header.
+    #include <unistd.h>
+
+// OS is Windows.
+#else
     //--------------------------------------------------------------------------
     // Headers.
     #include <io.h>
 
+    //--------------------------------------------------------------------------
+    // Defines.
     #define isatty _isatty
 
-#else
-    //--------------------------------------------------------------------------
-    // Just include the default header
-    #include <unistd.h>
-
-#endif // #if (ACOW_OS_IS_WINDOWS)
+#endif // #if (!ACOW_OS_IS_WINDOWS)
